@@ -1,7 +1,7 @@
 const User = require('./../../models/users');
 
 const getAll = (req, res) =>{
-    User.find({})
+    User.find({}, ["name", "username"])
     .then((response)=>{
         res.status(200).send(response);
     })
@@ -10,7 +10,14 @@ const getAll = (req, res) =>{
     })
 };
 const getUser = (req, res) => {
-    res.send("Página de usuario");
+    const id = req.params.id;
+    User.find({_id : id}, ["name", "username"])
+    .then((response)=>{
+        res.status(200).send(response);
+    })
+    .catch((err)=>{
+        res.sendStatus(500);
+    })
 };
 const newUser = (req, res) => {
     const user = {
@@ -24,8 +31,8 @@ const newUser = (req, res) => {
     if(user.name && user.age && user.username && user.password && user.email){
         const object = new User(user);
         object.save()
-        .then(()=>{
-            res.status(201).send("El usuario fue creado");
+        .then((response)=>{
+            res.status(201).send(response._id);
         })
         .catch((err)=>{
             res.sendStatus(500);
