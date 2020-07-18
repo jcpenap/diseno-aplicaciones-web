@@ -1,22 +1,17 @@
-//importar express
+
 const express = require('express');
-//instanciar express en el objeto app
 const app = express();
-//importar módulo personalizado
-const date = require('./date');
-const bmi = require('./bmi');
-//modelos
-const users = [];
-//middlewares
+const api = require('./api');
 
-const logger = (req, res, next) => {
-    console.log(`${date()} :: ${req.method} :: ${req.path}`);
-    next();
-}
-
-app.use(logger);
 app.use(express.json());
+app.use('/api', api);
+app.use('/api/v1', api);
 
+app.listen(3000, () => {
+    console.log("Servidor iniciado");
+});
+
+/*
 app.get('/', (req, res) =>{
     res.status(200).send(`Hola mundo ${date()}`);
 });
@@ -42,12 +37,6 @@ app.get('/bmi/:weight/:height', (req, res)=>{
         res.status(200).send(`bmi: ${bmiResult}`);
 });
 
-/*
-{
-    "name": "Jesus",
-    "lastname": "Estrada"
-}
-*/
 app.post('/users', (req, res)=>{
     const user = {
         name: req.body.name,
@@ -56,7 +45,4 @@ app.post('/users', (req, res)=>{
     users.push(user);
     res.status(200).send(`El usuario ${user.name} fue creado`);    
 });
-
-app.listen(3000, () => {
- console.log("Servidor iniciado");
-});
+*/
