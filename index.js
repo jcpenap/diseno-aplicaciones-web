@@ -5,7 +5,6 @@ const api = require('./api');
 
 app.use(express.json());
 app.use('/api', api);
-app.use('/api/v1', api);
 
 app.listen(3000, () => {
     console.log("Servidor iniciado");
