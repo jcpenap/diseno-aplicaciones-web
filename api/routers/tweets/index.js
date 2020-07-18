@@ -7,7 +7,9 @@ router.route('/')
     .post(controller.newTweet)
     .delete(controller.deleteTweet);
 
+router.route('/comment')
+    .post(controller.newComment);
 router.route('/:id')
-    .get(controller.getTweet);
+        .get(controller.getTweet);
 
 module.exports = router;
