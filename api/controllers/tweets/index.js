@@ -1,15 +1,21 @@
 const Tweet = require('./../../models/tweets');
-const User = require('./../../models/users');
 const getTweets = (req, res) =>{
-    Tweet.find({},(err, tweets)=>{
-        User.populate(tweets, {path: 'user'}, (err, populatedTweets)=>{
-            res.status(200).send(populatedTweets);
-        })
+    Tweet
+    .find({})
+    .populate('user', 'username')
+    .populate('comments.user', 'username')
+    .then((response)=>{
+        res.status(200).send(response);
+    })
+    .catch((err)=>{
+        res.sendStatus(500);
     })
 };
 const getTweet = (req, res) => {
     const id = req.params.id;
-    Tweet.find({_id : id})
+    Tweet
+    .find({_id : id})
+    .populate('user', 'username')
     .then((response)=>{
         res.status(200).send(response);
     })
@@ -20,7 +26,7 @@ const getTweet = (req, res) => {
 const newTweet = (req, res) => {
     const tweet = {
         content: req.body.content,
-        user: req.body.user
+        user: req.userId
     };
     if(tweet.content && tweet.user){
         const object = new Tweet(tweet);
@@ -38,5 +44,19 @@ const newTweet = (req, res) => {
 const deleteTweet = (req, res) => {
     res.send("Borrar tweet");
 };
+const newComment = (req, res) => {
+    const tweet = req.body.tweet;
+    const comment = {
+        comment: req.body.comment,
+        user: req.body.user
+    };
+    Tweet.updateOne({_id :tweet}, {$addToSet: {comments : comment}})
+    .then(response=>{
+        res.status(202).send(response);
+    })
+    .catch(err=>{
+        res.status(500).send(err);
+    })
+};
 
-module.exports = {getTweets, getTweet, newTweet, deleteTweet};
+module.exports = {getTweets, getTweet, newTweet, deleteTweet, newComment};
