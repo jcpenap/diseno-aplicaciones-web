@@ -1,13 +1,9 @@
 const bcrypt = require('bcryptjs'); 
-const cryptojs = require("crypto-js");
-const config = require('./../../../config');
+const jwt = require('jsonwebtoken');
 
 const User = require('./../../models/users');
-
-const decrypt = (data) => {
-    const bytes  = cryptojs.AES.decrypt(data, config.secretKey);
-    return bytes.toString(cryptojs.enc.Utf8);
-};
+const crypto = require('./../../functions/crypto');
+const config = require('./../../../config');
 
 const getUsers = (req, res) => {
     res.sendStatus(200);
@@ -19,7 +15,7 @@ const getUser = (req, res) => {
         const user = {
             name: response[0].name,
             username: response[0].username,
-            birthdate: decrypt(response[0].birthdate)
+            birthdate: crypto.decrypt(response[0].birthdate)
         }
         res.status(200).send(user);
     })
@@ -33,7 +29,7 @@ const newUser = (req, res) => {
     const salt = bcrypt.genSaltSync(saltRounds);
     const password = bcrypt.hashSync(req.body.password, salt);
 
-    const birthdate = cryptojs.AES.encrypt(req.body.birthdate, config.secretKey).toString();    
+    const birthdate = crypto.encrypt(req.body.birthdate);    
 
     const user = {
         name: req.body.name,
@@ -71,9 +67,10 @@ const loginUser = (req, res) => {
     User.findOne({username: user.username}, ["name", "password"])
     .then(response=>{
         const password = response.password;
-        bcrypt.compareSync(user.password, password) ?
-            res.status(200).json({name: response.name, id: response._id})
-        :
+        if(bcrypt.compareSync(user.password, password)){            
+            const token = jwt.sign({id: response._id}, config.tokenKey);
+            res.status(200).json({token: token, name: response.name, id: response._id});            
+        }else
             res.sendStatus(400)    
     })
     .catch(err=>{

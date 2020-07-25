@@ -27,6 +27,7 @@ SERVER_LOGS_DIR=
 SERVER_PORT=
 SERVER_HOST=
 SECRET_KEY=
+TOKEN_KEY=
 ```
 
 5. To run the app on production mode
