@@ -5,7 +5,7 @@
 ```
 git clone https://github.com/jestrade/diseno-aplicaciones-web.git
 ```
-2. Enter into the directory
+2. Go to directory diseno-aplicaciones-web
 ```
 cd diseno-aplicaciones-web
 ```
@@ -14,9 +14,9 @@ cd diseno-aplicaciones-web
 npm install
 ```
 4. Create .env file
-ENV = development | production
+
 ```
-ENV=
+ENV=development | production
 DEV_DATABASE_HOST=
 DEV_DATABASE_NAME=
 PROD_DATABASE_HOST=
@@ -44,6 +44,10 @@ npm i nodemon -g
 ```
 npm run dev
 ```
+7  To run tests
+```
+npm run test
+```
 
 # Libraries
 - https://www.npmjs.com/package/express
@@ -55,4 +59,4 @@ npm run dev
 - https://www.npmjs.com/package/crypto-js
 - https://www.npmjs.com/package/bcrypt
 - https://www.npmjs.com/package/jsonwebtoken
-
+- https://www.npmjs.com/package/jest
