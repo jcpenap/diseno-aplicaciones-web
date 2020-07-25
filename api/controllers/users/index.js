@@ -10,12 +10,12 @@ const getUsers = (req, res) => {
 };
 const getUser = (req, res) => {
     const id = req.params.id;
-    User.find({_id : id}, ["name", "username", "birthdate"])
+    User.findOne({_id : id}, ["name", "username", "birthdate"])
     .then((response)=>{
         const user = {
-            name: response[0].name,
-            username: response[0].username,
-            birthdate: crypto.decrypt(response[0].birthdate)
+            name: response.name,
+            username: response.username,
+            birthdate: crypto.decrypt(response.birthdate)
         }
         res.status(200).send(user);
     })
