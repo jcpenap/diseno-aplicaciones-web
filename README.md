@@ -5,7 +5,6 @@
 ```
 git clone https://github.com/jestrade/diseno-aplicaciones-web.git
 ```
-
 2. Enter into the directory
 ```
 cd diseno-aplicaciones-web
@@ -24,6 +23,7 @@ PROD_DATABASE_HOST=
 PROD_DATABASE_NAME=
 PROD_DATABASE_USER=
 PROD_DATABASE_PASSWORD=
+SERVER_LOGS_DIR=
 SERVER_PORT=
 SERVER_HOST=
 ```

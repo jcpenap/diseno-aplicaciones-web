@@ -8,7 +8,7 @@ const config = require("./config");
 const app = express();
 const api = require("./api");
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.join(`${__dirname}/${config.server.logs.dir}`, 'access.log'), { flags: 'a' });
 
 app.use(express.json());
 app.use(morgan('combined', { stream: accessLogStream}));
@@ -38,7 +38,7 @@ config.env === "production" &&
   );
 
 const server = app.listen(
-  process.env.PORT || config.server.port,
+  config.server.port,
   config.server.host,
   () => {
     console.log(

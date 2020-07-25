@@ -14,7 +14,10 @@ const config = {
     },
     server:{
         host: process.env.SERVER_HOST,
-        port: process.env.SERVER_PORT
+        port: process.env.PORT || process.env.SERVER_PORT,
+        logs: {
+            dir: process.env.SERVER_LOGS_DIR
+        }
     }
 }
 
