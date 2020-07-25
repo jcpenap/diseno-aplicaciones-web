@@ -15,8 +15,9 @@ cd diseno-aplicaciones-web
 npm install
 ```
 4. Create .env file
+ENV = development | production
 ```
-ENV=development
+ENV=
 DEV_DATABASE_HOST=
 DEV_DATABASE_NAME=
 PROD_DATABASE_HOST=
@@ -42,3 +43,8 @@ npm i nodemon -g
 npm run dev
 ```
 
+# Libraries
+- https://www.npmjs.com/package/dotenv
+- https://www.npmjs.com/package/morgan
+- https://www.npmjs.com/package/path
+- https://www.npmjs.com/package/fs
