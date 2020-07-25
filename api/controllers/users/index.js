@@ -1,3 +1,6 @@
+//const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); //mac servers
+
 const User = require('./../../models/users');
 
 const getAll = (req, res) =>{
@@ -20,11 +23,14 @@ const getUser = (req, res) => {
     })
 };
 const newUser = (req, res) => {
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const password = bcrypt.hashSync(req.body.password, salt);
     const user = {
         name: req.body.name,
         age: req.body.age,
         username: req.body.username,
-        password: req.body.password,
+        password: password,
         email: req.body.email,
         telephone: req.body.telephone
     };
@@ -47,5 +53,22 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
     res.send("Borrar usuario");
 };
+const loginUser = (req, res) => {
+    const user = {
+        username: req.body.username,
+        password: req.body.password
+    };
+    User.findOne({username: user.username}, ["name", "password"])
+    .then(response=>{
+        const password = response.password;
+        bcrypt.compareSync(user.password, password) ?
+            res.status(200).json({name: response.name, id: response._id})
+        :
+            res.sendStatus(400)    
+    })
+    .catch(err=>{
+        res.sendStatus(400);
+    });
+};
 
-module.exports = {getAll, getUser, newUser, updateUser, deleteUser};
+module.exports = {getAll, getUser, newUser, updateUser, deleteUser, loginUser};

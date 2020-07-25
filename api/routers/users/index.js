@@ -8,6 +8,9 @@ router.route('/')
     .post(logger, controller.newUser)
     .delete(logger,controller.deleteUser);
 
+router.route('/login')
+        .post(logger, controller.loginUser);
+
 router.route('/:id')
     .get(controller.getUser)
     .put(logger, controller.updateUser);
