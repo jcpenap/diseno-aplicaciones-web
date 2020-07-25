@@ -1,21 +1,20 @@
 const config = {
-    env: "development",
+    env: process.env.ENV,
     database: {
         development:{
-            host: "localhost", 
-            name: "twitter"
+            host: process.env.DEV_DATABASE_HOST, 
+            name: process.env.DEV_DATABASE_NAME
         },
         production:{
-            host: "", 
-            name: "",
-            user: "",
-            password: "",
-            port: 0
+            host: process.env.PROD_DATABASE_HOST, 
+            name: process.env.PROD_DATABASE_NAME,
+            user: process.env.PROD_DATABASE_USER,
+            password: process.env.PROD_DATABASE_PASSWORD
         }
     },
     server:{
-        host: "localhost",
-        port: 3000
+        host: process.env.SERVER_HOST,
+        port: process.env.SERVER_PORT
     }
 }
 

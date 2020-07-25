@@ -1,6 +1,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
 const config = require('./config');
 const app = express();
 const api = require('./api');
@@ -16,7 +17,7 @@ config.env === "development" &&
         console.log("Conectado a la base de datos");
     });
 config.env === "production" &&
-    mongoose.connect(`mongodb+srv://${config.database.production.user}:${config.database.production.password}@${config.database.production.host}:${config.database.production.port}/${config.database.development.name}`, {
+    mongoose.connect(`mongodb+srv://${config.database.production.user}:${config.database.production.password}@${config.database.production.host}/${config.database.development.name}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }, ()=>{
