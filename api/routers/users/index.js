@@ -4,7 +4,7 @@ const controller = require('./../../controllers/users');
 const logger = require('./../../middlewares/logger');
 
 router.route('/')
-    .get(controller.getAll)
+    .get(controller.getUsers)
     .post(logger, controller.newUser)
     .delete(logger,controller.deleteUser);
 

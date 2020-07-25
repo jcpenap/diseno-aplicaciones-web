@@ -18,7 +18,8 @@ const config = {
         logs: {
             dir: process.env.SERVER_LOGS_DIR
         }
-    }
+    },
+    secretKey: process.env.SECRET_KEY
 }
 
 module.exports = config;

@@ -1,24 +1,30 @@
-//const bcrypt = require('bcrypt');
-const bcrypt = require('bcryptjs'); //mac servers
+const bcrypt = require('bcryptjs'); 
+const cryptojs = require("crypto-js");
+const config = require('./../../../config');
 
 const User = require('./../../models/users');
 
-const getAll = (req, res) =>{
-    User.find({}, ["name", "username"])
-    .then((response)=>{
-        res.status(200).send(response);
-    })
-    .catch((err)=>{
-        res.sendStatus(500);
-    })
+const decrypt = (data) => {
+    const bytes  = cryptojs.AES.decrypt(data, config.secretKey);
+    return bytes.toString(cryptojs.enc.Utf8);
+};
+
+const getUsers = (req, res) => {
+    res.sendStatus(200);
 };
 const getUser = (req, res) => {
     const id = req.params.id;
-    User.find({_id : id}, ["name", "username"])
+    User.find({_id : id}, ["name", "username", "birthdate"])
     .then((response)=>{
-        res.status(200).send(response);
+        const user = {
+            name: response[0].name,
+            username: response[0].username,
+            birthdate: decrypt(response[0].birthdate)
+        }
+        res.status(200).send(user);
     })
     .catch((err)=>{
+        console.log(err);
         res.sendStatus(500);
     })
 };
@@ -26,13 +32,17 @@ const newUser = (req, res) => {
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const password = bcrypt.hashSync(req.body.password, salt);
+
+    const birthdate = cryptojs.AES.encrypt(req.body.birthdate, config.secretKey).toString();    
+
     const user = {
         name: req.body.name,
         age: req.body.age,
         username: req.body.username,
         password: password,
         email: req.body.email,
-        telephone: req.body.telephone
+        telephone: req.body.telephone,
+        birthdate: birthdate
     };
     if(user.name && user.age && user.username && user.password && user.email){
         const object = new User(user);
@@ -71,4 +81,4 @@ const loginUser = (req, res) => {
     });
 };
 
-module.exports = {getAll, getUser, newUser, updateUser, deleteUser, loginUser};
+module.exports = {getUser, newUser, updateUser, deleteUser, loginUser, getUsers};

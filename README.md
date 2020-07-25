@@ -26,6 +26,7 @@ PROD_DATABASE_PASSWORD=
 SERVER_LOGS_DIR=
 SERVER_PORT=
 SERVER_HOST=
+SECRET_KEY=
 ```
 
 5. To run the app on production mode
@@ -44,7 +45,13 @@ npm run dev
 ```
 
 # Libraries
+- https://www.npmjs.com/package/express
+- https://www.npmjs.com/package/mongoose
 - https://www.npmjs.com/package/dotenv
 - https://www.npmjs.com/package/morgan
 - https://www.npmjs.com/package/path
 - https://www.npmjs.com/package/fs
+- https://www.npmjs.com/package/crypto-js
+- https://www.npmjs.com/package/bcrypt
+- https://www.npmjs.com/package/jsonwebtoken
+
