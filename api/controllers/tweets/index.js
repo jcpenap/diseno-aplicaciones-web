@@ -4,6 +4,7 @@ const getTweets = (req, res) =>{
     .find({})
     .populate('user', 'username')
     .populate('comments.user', 'username')
+    .sort({createdAt: -1})
     .then((response)=>{
         res.status(200).send(response);
     })

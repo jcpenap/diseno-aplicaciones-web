@@ -4,7 +4,7 @@ const controller = require('./../../controllers/tweets');
 const authentication = require('./../../middlewares/authentication');
 
 router.route('/')
-    .get(controller.getTweets)
+    .get(authentication, controller.getTweets)
     .post(authentication, controller.newTweet)
     .delete(controller.deleteTweet);
 

@@ -64,12 +64,12 @@ const loginUser = (req, res) => {
         username: req.body.username,
         password: req.body.password
     };
-    User.findOne({username: user.username}, ["name", "password"])
+    User.findOne({username: user.username}, ["username", "name", "password"])
     .then(response=>{
         const password = response.password;
         if(bcrypt.compareSync(user.password, password)){            
             const token = jwt.sign({id: response._id}, config.tokenKey);
-            res.status(200).json({token: token, name: response.name, id: response._id});            
+            res.status(200).json({token: token, username: response.username, name: response.name, id: response._id});            
         }else
             res.sendStatus(400)    
     })
